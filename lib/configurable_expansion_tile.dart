@@ -14,28 +14,29 @@ class ConfigurableExpansionTile extends StatefulWidget {
   /// expanded state by proving a [Widget] in [headerExpanded]. Colors can also
   /// be specified for the animated transitions/states. [children] are revealed
   /// when the expansion tile is expanded.
-  const ConfigurableExpansionTile(
-      {Key? key,
-      this.headerBackgroundColorStart = Colors.transparent,
-      this.onExpansionChanged,
-      this.children = const <Widget>[],
-      this.initiallyExpanded = false,
-      required this.header,
-      this.animatedWidgetFollowingHeader,
-      this.animatedWidgetPrecedingHeader,
-      this.expandedBackgroundColor,
-      this.borderColorStart = Colors.transparent,
-      this.borderColorEnd = Colors.transparent,
-      this.topBorderOn = true,
-      this.bottomBorderOn = true,
-      this.kExpand = const Duration(milliseconds: 200),
-      this.headerBackgroundColorEnd,
-      this.headerExpanded,
-      this.headerAnimationTween,
-      this.borderAnimationTween,
-      this.animatedWidgetTurnTween,
-      this.animatedWidgetTween})
-      : super(key: key);
+  const ConfigurableExpansionTile({
+    Key? key,
+    this.headerBackgroundColorStart = Colors.transparent,
+    this.onExpansionChanged,
+    this.children = const <Widget>[],
+    this.initiallyExpanded = false,
+    required this.header,
+    this.animatedWidgetFollowingHeader,
+    this.animatedWidgetPrecedingHeader,
+    this.expandedBackgroundColor,
+    this.borderColorStart = Colors.transparent,
+    this.borderColorEnd = Colors.transparent,
+    this.topBorderOn = true,
+    this.bottomBorderOn = true,
+    this.kExpand = const Duration(milliseconds: 200),
+    this.headerBackgroundColorEnd,
+    this.headerExpanded,
+    this.headerAnimationTween,
+    this.borderAnimationTween,
+    this.animatedWidgetTurnTween,
+    this.animatedWidgetTween,
+    this.triggerTap = false,
+  }) : super(key: key);
 
   /// Called when the tile expands or collapses.
   ///
@@ -86,6 +87,7 @@ class ConfigurableExpansionTile extends StatefulWidget {
 
   /// Turns the top border of the list is on/off
   final bool topBorderOn;
+  final bool triggerTap;
 
   /// Turns the bottom border of the list on/off
   final bool bottomBorderOn;
@@ -181,6 +183,11 @@ class _ConfigurableExpansionTileState extends State<ConfigurableExpansionTile>
     final Color borderSideColor = _borderColor.value ?? widget.borderColorStart;
     final Color headerColor =
         _headerColor?.value ?? widget.headerBackgroundColorStart;
+
+    if (widget.triggerTap && _isExpanded) {
+      print("asdas");
+      Future.delayed(Duration.zero).then((value) => _handleTap());
+    }
     return Container(
       decoration: BoxDecoration(
           border: Border(
